@@ -8,13 +8,28 @@ router.use(function timeLog(req, res, next) {
 });
 
 
-// Define the home page route
-router.get('/', function(req, res) {
+//register
+router.post('/user', function(req, res) {
   res.send('home page');
 });
 
+//get user info
+router.get('/user', function(req, res) {
+    res.send('home page');
+  });
+
+//delete user
+router.delete('/user', function(req, res) {
+  res.send('home page');
+});
+
+//update user
+router.put('/user', function(req, res) {
+    res.send('home page');
+});
+
 // Define the about route
-router.get('/about', function(req, res) {
+router.get('/login', function(req, res) {
   res.send('About us');
 });
 
