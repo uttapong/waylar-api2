@@ -18,6 +18,7 @@ router.use(function timeLog(req, res, next) {
 router.post('/user', (req, res) => {
 // res.send(req.body);
 // return;
+// console.log(req.body);
   getToken.then((token) => {
     // res.send(token);
     let form_data = {
@@ -26,6 +27,7 @@ router.post('/user', (req, res) => {
       "email": req.body.email,
       "password": req.body.password
     }
+   console.log(form_data);
 
     let options = {
       method: 'POST',
@@ -75,12 +77,66 @@ router.get('/user', function (req, res) {
 
 //delete user
 router.delete('/user', function (req, res) {
-  res.send('home page');
+  getToken.then((token) => {
+    // res.send(token);
+    let options = {
+      method: 'GET',
+      url: 'https://tnk.auth0.com/api/v2/users/'+req.query.id,
+      headers: {
+        'content-type': 'Content-Type: application/json',
+        authorization: 'Bearer ' + token
+      }
+    };
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+
+      res.send(body);
+    });
+  }).catch((error) => {
+    res.send(error);
+  })
 });
 
 //update user
-router.put('/user', function (req, res) {
-  res.send('home page');
+router.patch('/user', function (req, res) {
+  getToken.then((token) => {
+    // res.send(token);
+    let form_data = 
+      {
+        "blocked": false,
+        "email_verified": false,
+        "email": req.query.email,
+        "verify_email": false,
+        "phone_number": req.query.phone,
+        "phone_verified": false,
+        "verify_phone_number": false,
+        "password": req.query.password,
+        "user_metadata": {},
+        "app_metadata": {},
+        "connection": "Initial-Connection",
+        "username": req.query.username,
+        "client_id": "DEgjSOxq9pBJJIv6hbuIUDAYf0QwjIV5"
+      }
+    
+   console.log(form_data);
+
+    let options = {
+      method: 'POST',
+      url: 'https://tnk.auth0.com/api/v2/users'+req.query.id,
+      headers: {
+        'content-type': 'Content-Type: application/json',
+        authorization: 'Bearer ' + token
+      },
+      form: form_data
+    };
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+
+      res.send(body);
+    });
+  }).catch((error) => {
+    res.send(error);
+  })
 });
 
 // Define the about route
