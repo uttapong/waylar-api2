@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+require('babel-register');
 
 app.use(require('./authen'));
 

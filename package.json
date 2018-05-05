@@ -21,7 +21,11 @@
     "dev": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "request-promise": "^4.2.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0"
+  }
 }

@@ -1,6 +1,8 @@
+require('babel-register');
 var express = require('express');
 var router = express.Router();
 var request = require("request");
+import {getToken} from './lib'
 //Middle ware that is specific to this router
 router.use(function timeLog(req, res, next) {
   console.log('Time: ', Date.now());
@@ -9,37 +11,38 @@ router.use(function timeLog(req, res, next) {
 
 
 //register
-router.post('/user', function(req, res) {
+router.post('/user', (req, res)=> {
 
-    var options = { method: 'POST',
-    url: 'https://tnk.auth0.com/oauth/token',
-    headers: { 'content-type': 'application/json' },
-    body: '{"client_id":"DEgjSOxq9pBJJIv6hbuIUDAYf0QwjIV5","client_secret":"5mtNz2NxBf-jIPABvMZV14j7FIEtqD3p9lYJ-YaWkv-lJqSptONtLLSArkERoZ7i","audience":"https://tnk.auth0.com/api/v2/","grant_type":"client_credentials"}' };
+    // var options = { method: 'POST',
+    // url: 'https://tnk.auth0.com/oauth/token',
+    // headers: { 'content-type': 'application/json' },
+    // body: '{"client_id":"DEgjSOxq9pBJJIv6hbuIUDAYf0QwjIV5","client_secret":"5mtNz2NxBf-jIPABvMZV14j7FIEtqD3p9lYJ-YaWkv-lJqSptONtLLSArkERoZ7i","audience":"https://tnk.auth0.com/api/v2/","grant_type":"client_credentials","json":"true"' };
 
+    
+    
+
+   getToken.then((token)=>{
+    // res.send(token);
+    let form_data= {
+      "user_id": "",
+      "connection": "Username-Password-Authentication",
+      "email": "john.doe@gmail.com",
+      "password": "secret"
+    }
+
+    let options = { method: 'POST',
+        url: 'https://tnk.auth0.com/api/v2/users',
+        headers: { 'content-type': 'Content-Type: application/json',authorization: 'Bearer '+token } ,
+        form:form_data};
     request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-
-        //res.send(body);
-        var form_data= {
-            "client_id": "DEgjSOxq9pBJJIv6hbuIUDAYf0QwjIV5",
-            "email": "adadf@afda.com",
-            "password": "adfadfadfadf",
-            "connection": "Username-Password-Authentication",
-            "user_metadata": { plan: 'silver', team_id: 'a111' }
-          };
-
-        var options = { method: 'GET',
-        url: 'https://tnk.auth0.com/dbconnections/signup',
-        headers: { authorization: 'Bearer '+body.access_token }, 
-        form_data:form_data};
-        
-       
-        request(options, function (error, response, body) {
-            if (error) throw new Error(error);
-        
-            res.send(body);
-        });
+      if (error) throw new Error(error);
+  
+      res.send(body);
     });
+   }).catch((error)=>{
+    res.send(error);
+   })
+
 });
 
 //get user info
