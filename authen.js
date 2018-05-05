@@ -16,15 +16,16 @@ router.use(function timeLog(req, res, next) {
 //register
 
 router.post('/user', (req, res) => {
-console.log(req.query);
+console.log(req.body);
   getToken.then((token) => {
     // res.send(token);
     let form_data = {
       "user_id": "",
       "connection": "Username-Password-Authentication",
-      "email": req.query.email,
-      "password": req.query.password
+      "email": req.body.email,
+      "password": req.body.password
     }
+   console.log(form_data);
 
     let options = {
       method: 'POST',
