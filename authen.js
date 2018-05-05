@@ -12,7 +12,7 @@ router.use(function timeLog(req, res, next) {
 
 //register
 router.post('/user', (req, res)=> {
-
+  console.log(req);
     // var options = { method: 'POST',
     // url: 'https://tnk.auth0.com/oauth/token',
     // headers: { 'content-type': 'application/json' },
@@ -26,8 +26,8 @@ router.post('/user', (req, res)=> {
     let form_data= {
       "user_id": "",
       "connection": "Username-Password-Authentication",
-      "email": "john.doe@gmail.com",
-      "password": "secret"
+      "email": req.body.email,
+      "password": req.body.password
     }
 
     let options = { method: 'POST',
