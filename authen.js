@@ -47,8 +47,28 @@ router.post('/user', (req, res) => {
 
 //get user info
 router.get('/user', function (req, res) {
-  console.log(req.query);
-  res.send(req.query);
+  // console.log(req.query);
+  // res.send(req.query.id);
+
+  getToken.then((token) => {
+    // res.send(token);
+
+    let options = {
+      method: 'GET',
+      url: 'https://tnk.auth0.com/api/v2/users/'+req.query.id,
+      headers: {
+        'content-type': 'Content-Type: application/json',
+        authorization: 'Bearer ' + token
+      }
+    };
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+
+      res.send(body);
+    });
+  }).catch((error) => {
+    res.send(error);
+  })
 });
 
 //delete user
