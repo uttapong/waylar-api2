@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 require('babel-register');
 
 app.use(require('./authen'));
