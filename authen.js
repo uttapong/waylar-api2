@@ -78,7 +78,7 @@ router.delete('/user', function (req, res) {
   getToken.then((token) => {
     // res.send(token);
     let options = {
-      method: 'GET',
+      method: 'DELETE',
       url: 'https://tnk.auth0.com/api/v2/users/'+req.query.id,
       headers: {
         'content-type': 'Content-Type: application/json',
@@ -119,7 +119,7 @@ router.patch('/user', function (req, res) {
    console.log(form_data);
 
     let options = {
-      method: 'POST',
+      method: 'PATCH',
       url: 'https://tnk.auth0.com/api/v2/users'+req.query.id,
       headers: {
         'content-type': 'Content-Type: application/json',
