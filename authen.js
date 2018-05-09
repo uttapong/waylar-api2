@@ -16,7 +16,9 @@ router.use(function timeLog(req, res, next) {
 //register
 
 router.post('/user', (req, res) => {
-console.log(req.body);
+// res.send(req.body);
+// return;
+// console.log(req.body);
   getToken.then((token) => {
     // res.send(token);
     let form_data = {
